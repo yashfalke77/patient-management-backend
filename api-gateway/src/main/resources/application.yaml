@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            # REST CLIENT -> http://localHost:7070/api/patients
+            # API GATEWAY -> http://patient-service:7001/patients
+            - id: patient-service
+              uri: http://patient-service:7001
+              predicates:
+                - Path=/api/patients/**
+              filters:
+                - StripPrefix=1
+server:
+  port: 7070
