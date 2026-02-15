@@ -6,12 +6,12 @@ spring:
       server:
         webmvc:
           routes:
-            # REST CLIENT -> http://localHost:7070/api/patients
-            # API GATEWAY -> http://patient-service:7001/patients
+            # REST CLIENT -> http://localHost:7070/api/patient
+            # API GATEWAY -> http://patient-service:7001/patient
             - id: patient-service
               uri: http://patient-service:7001
               predicates:
-                - Path=/api/patients/**
+                - Path=/api/patient/**
               filters:
                 - StripPrefix=1
 server:
