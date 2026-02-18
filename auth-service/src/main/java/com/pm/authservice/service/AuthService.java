@@ -3,7 +3,6 @@ package com.pm.authservice.service;
 import com.pm.authservice.dto.LoginRequestDTO;
 import com.pm.authservice.dto.UserRequestDTO;
 import com.pm.authservice.dto.UserResponseDTO;
-import com.pm.authservice.model.User;
 import com.pm.authservice.util.JwtUtil;
 import io.jsonwebtoken.JwtException;
 import org.slf4j.Logger;
