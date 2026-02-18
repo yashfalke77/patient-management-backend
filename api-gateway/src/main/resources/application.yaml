@@ -3,16 +3,25 @@ spring:
     name: api-gateway
   cloud:
     gateway:
-      server:
-        webmvc:
-          routes:
-            # REST CLIENT -> http://localHost:7070/api/patient
-            # API GATEWAY -> http://patient-service:7001/patient
-            - id: patient-service
-              uri: http://patient-service:7001
-              predicates:
-                - Path=/api/patient/**
-              filters:
-                - StripPrefix=1
+      routes:
+        # REST CLIENT -> http://localhost:7070/auth/login
+        # API GATEWAY -> http://auth-service:7002/login
+        - id: auth-service-route
+          uri: http://auth-service:7002
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+
+        # REST CLIENT -> http://localhost:7070/api/patient
+        # API GATEWAY -> http://patient-service:7001/patient
+        - id: patient-service
+          uri: http://patient-service:7001
+          predicates:
+            - Path=/api/patient/**
+          filters:
+            - StripPrefix=1
+            - JwtValidation
 server:
   port: 7070
+
