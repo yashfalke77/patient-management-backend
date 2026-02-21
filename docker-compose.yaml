@@ -1,0 +1,85 @@
+version: '3.8'
+services:
+  # ─── Databases ───────────────────────────────────────
+  patient-service-db:
+    image: postgres:18.2
+    container_name: patient-service-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: patient
+    ports:
+      - "5432:5432"
+    networks:
+      - internal
+
+  auth-service-db:
+    image: postgres:18.2
+    container_name: auth-service-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: auth
+    ports:
+      - "5433:5432"
+    networks:
+      - internal
+
+  # ─── Services ────────────────────────────────────────
+  patient-service:
+    build:
+      context: ./patient-service
+      dockerfile: Dockerfile
+    container_name: patient-service
+    restart: unless-stopped
+#    ports:
+#      - "7000:7000"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://patient-service-db:5432/patient
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: always
+    depends_on:
+      - patient-service-db
+    networks:
+      - internal
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    restart: unless-stopped
+    ports:
+      - "7070:7070"
+    environment:
+      AUTH_SERVICE_URL: "http://auth-service:7002"
+    networks:
+      - internal
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    restart: unless-stopped
+#    ports:
+#      - "7001:7001"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://auth-service-db:5432/auth
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: always
+      JWT_SECRET: c7Kp9mXqR2nT5vYwZ8aB3dE6hJ1kL4oQ0sU9fG2iN5rV8yA1cF4jM7pW0bD3gH6lO9tX2zC5eI8nR1uY4wB7dK0mP3sV6xA9cG2fJ5oT8vZ1bE4hL7qU0wN3rY
+    depends_on:
+      - auth-service-db
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge
