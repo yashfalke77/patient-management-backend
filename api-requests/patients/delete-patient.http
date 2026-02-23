@@ -1,0 +1,4 @@
+### Delete an entity
+DELETE http://localhost:7070/api/patient/e9ddbdcd-5872-4fe5-a579-8e22f6d0e15c
+Authorization: Bearer {{token}}
+###

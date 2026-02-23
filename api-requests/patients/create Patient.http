@@ -1,0 +1,18 @@
+### Creates a new patient entity
+POST http://localhost:7070/api/patient
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "firstName": "Yash3",
+  "lastName": "Op3",
+  "userId": "34567865",
+  "email": "yashOp3@example.com",
+  "phoneNumber": "8850529588",
+  "address": "123 main street22",
+  "dateOfBirth": "1995-09-09",
+  "registeredDate": "2024-11-28",
+  "privacyConsent": true
+}
+
+###

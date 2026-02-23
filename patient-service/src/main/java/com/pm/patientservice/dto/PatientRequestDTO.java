@@ -25,7 +25,6 @@ public class PatientRequestDTO {
     @NotBlank(message = "userId is required")
     private String userId;
 
-    @NotBlank(message = "privacyConsent is required")
     private boolean privacyConsent;
 
     private String gender;
