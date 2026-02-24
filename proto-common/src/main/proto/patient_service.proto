@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.pm.proto";
+option java_outer_classname = "PatientProto";
+
+service PatientService {
+  rpc CreatePatient (PatientRequest) returns (PatientResponse);
+}
+
+message PatientRequest {
+  string userId = 1;
+  string email = 2;
+}
+
+message PatientResponse {
+  string patientId = 1;
+  string email = 2;
+}

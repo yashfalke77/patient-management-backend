@@ -11,14 +11,11 @@ public class PatientRequestDTO {
     @Email(message = "Email is Invalid")
     private String email;
 
-    @NotBlank(message = "phoneNumber is required")
     private String phoneNumber;
 
-    @NotBlank(message = "firstName is required")
     @Size(max=100 , message = "firstName cannot exceed 100 characters")
     private String firstName;
 
-    @NotBlank(message = "lastName is required")
     @Size(max=100 , message = "lastName cannot exceed 100 characters")
     private String lastName;
 

@@ -14,9 +14,13 @@ public class PatientMapper {
         patientResponseDTO.setGender(p.getGender());
         patientResponseDTO.setPhoneNumber(p.getPhoneNumber());
         patientResponseDTO.setAddress(p.getAddress());
-        patientResponseDTO.setDateOfBirth(p.getDateOfBirth().toString());
+        if (p.getDateOfBirth() != null){
+            patientResponseDTO.setDateOfBirth(p.getDateOfBirth().toString());
+        }
         patientResponseDTO.setPrivacyConsent(p.isPrivacyConsent());
-        patientResponseDTO.setRegisteredDate(p.getRegisteredDate().toString());
+        if (p.getRegisteredDate() != null){
+            patientResponseDTO.setRegisteredDate(p.getRegisteredDate().toString());
+        }
         patientResponseDTO.setOccupation(p.getOccupation());
         patientResponseDTO.setEmergencyContact(p.getEmergencyContact());
         patientResponseDTO.setInsuranceProvider(p.getInsuranceProvider());

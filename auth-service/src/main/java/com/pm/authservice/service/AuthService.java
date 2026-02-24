@@ -3,6 +3,7 @@ package com.pm.authservice.service;
 import com.pm.authservice.dto.LoginRequestDTO;
 import com.pm.authservice.dto.UserRequestDTO;
 import com.pm.authservice.dto.UserResponseDTO;
+import com.pm.authservice.grpc.PatientServiceGrpcClient;
 import com.pm.authservice.util.JwtUtil;
 import io.jsonwebtoken.JwtException;
 import org.slf4j.Logger;
@@ -25,6 +26,9 @@ public class AuthService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private PatientServiceGrpcClient patientServiceGrpcClient;
+
     public Optional<String> authenticate(LoginRequestDTO loginRequestDTO) {
         log.info("Authenticating user with login request DTO {}", passwordEncoder.matches(loginRequestDTO.getPassword(), loginRequestDTO.getPassword()));
         return userService.findByEmail(loginRequestDTO.getEmail())
@@ -44,6 +48,8 @@ public class AuthService {
     public UserResponseDTO register(UserRequestDTO userRequestDTO) {
         userRequestDTO.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
         userRequestDTO.setRole("PATIENT");
-        return userService.createUser(userRequestDTO);
+        UserResponseDTO userResponseDTO = userService.createUser(userRequestDTO);
+        patientServiceGrpcClient.createPatient(userResponseDTO.getId(), userResponseDTO.getEmail());
+        return userResponseDTO;
     }
 }

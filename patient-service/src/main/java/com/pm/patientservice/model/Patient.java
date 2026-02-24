@@ -22,21 +22,17 @@ public class Patient {
     @Size(max=100)
     private String email;
 
-    @NotNull
     private String phoneNumber;
 
-    @NotNull
     @Size(max=100)
     private String firstName;
 
-    @NotNull
     @Size(max=100)
     private String lastName;
 
     @NotNull
     private String userId;
 
-    @NotNull
     private boolean privacyConsent;
 
     private String gender;

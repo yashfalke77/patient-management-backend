@@ -3,3 +3,7 @@ spring:
     name: patient-service
 server:
   port: 7001
+
+grpc:
+  server:
+    port: 9001

@@ -2,16 +2,20 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.42/8365263844ebb62398e0dc33057ba10ba472d3b8/lombok-1.18.42.jar" />
         </processorPath>
-        <module name="patient-service.main" />
+        <module name="auth-service.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="api-service-gateway" target="21" />
+      <module name="common-proto" target="21" />
+      <module name="common-proto.main" target="21" />
+      <module name="common-proto.test" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
