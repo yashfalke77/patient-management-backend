@@ -27,6 +27,19 @@ services:
     networks:
       - internal
 
+  appointment-service-db:
+    image: postgres:18.2
+    container_name: appointment-service-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: appointment
+    ports:
+      - "5434:5432"
+    networks:
+      - internal
+
   # ─── Services ────────────────────────────────────────
   patient-service:
     build:
@@ -83,6 +96,24 @@ services:
       - patient-service
     networks:
       - internal
+
+  appointment-service:
+    build:
+      context: ./appointment-service
+      dockerfile: Dockerfile
+    container_name: appointment-service
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://appointment-service-db:5432/appointment
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: always
+    depends_on:
+      - appointment-service-db
+    networks:
+      - internal
+
 
 networks:
   internal:

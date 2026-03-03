@@ -17,6 +17,7 @@ spring:
             allowedHeaders: "*"
             allowCredentials: true
       routes:
+        # ----------------------- Auth Service -----------------------------------------------------------
         - id: auth-service-route
           uri: http://auth-service:7002
           predicates:
@@ -24,7 +25,7 @@ spring:
           filters:
             - StripPrefix=1
 
-        # ✅ Handle OPTIONS preflight FIRST — no JWT filter
+        # ----------------------- Patient Service -----------------------------------------------------------
         - id: patient-service-options
           uri: http://patient-service:7001
           predicates:
@@ -49,6 +50,32 @@ spring:
           filters:
             - StripPrefix=1
             - JwtValidation
+        # ----------------------- appointment Service -----------------------------------------------------------
+        - id: appointment-service-options
+          uri: http://appointment-service:7003
+          predicates:
+            - Path=/api/appointment/**
+            - Method=OPTIONS
+          filters:
+            - StripPrefix=1
+
+        - id: patient-service-get
+          uri: http://appointment-service:7003
+          predicates:
+            - Path=/api/appointment/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
+
+        - id: patient-service-secured
+          uri: http://appointment-service:7003
+          predicates:
+            - Path=Path=/api/appointment/**
+            - Method=POST,PUT,DELETE,PATCH
+          filters:
+            - StripPrefix=1
+            - JwtValidation
+
 
 server:
   port: 7070
