@@ -26,6 +26,11 @@ public class PatientService {
                 .toList();
     }
 
+    public PatientResponseDTO getPatientById(UUID id){
+        Patient patient = dao.getPatientById(id);
+        return PatientMapper.toPatientResponseDTO(patient);
+    }
+
     public PatientResponseDTO createPatient(PatientRequestDTO patientRequestDTO) {
         if (dao.existsByEmail(patientRequestDTO.getEmail())) {
             throw new EmailAlreadyExistsException(

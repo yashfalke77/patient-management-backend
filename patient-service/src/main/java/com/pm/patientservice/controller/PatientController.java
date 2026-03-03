@@ -23,13 +23,19 @@ public class PatientController {
         return ResponseEntity.ok().body(patientService.getPatients());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<PatientResponseDTO> getPatientById(@PathVariable String id){
+        PatientResponseDTO patientResponseDTO = patientService.getPatientById(UUID.fromString(id));
+        return ResponseEntity.ok().body(patientResponseDTO);
+    }
+
     @PostMapping
     public ResponseEntity<PatientResponseDTO> createPatient(@Validated @RequestBody PatientRequestDTO patientRequestDTO) {
         PatientResponseDTO patientResponseDTO = patientService.createPatient(patientRequestDTO);
         return ResponseEntity.ok().body(patientResponseDTO);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<PatientResponseDTO> updatePatient(@PathVariable UUID id,
                                                             @Validated({Default.class}) @RequestBody PatientRequestDTO patientRequestDTO) {
 

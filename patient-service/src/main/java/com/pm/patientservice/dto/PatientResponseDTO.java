@@ -28,17 +28,19 @@ public class PatientResponseDTO {
 
     private String occupation;
 
-    private String emergencyContact;
+    private String emergencyContactName;
+
+    private String emergencyContactNumber;
 
     private String insuranceProvider;
 
-    private String insurancePolicyNo;
+    private String insurancePolicyNumber;
 
     private String allergies;
 
     private String currentMedication;
 
-    private String FamilyMedicalHistory;
+    private String familyMedicalHistory;
 
     private String pastMedicalHistory;
 
@@ -48,5 +50,5 @@ public class PatientResponseDTO {
 
     private String identificationDocumentUrl;
 
-    private String PrimaryPhysician;
+    private String primaryPhysician;
 }

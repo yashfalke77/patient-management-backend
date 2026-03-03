@@ -37,13 +37,16 @@ public class PatientRequestDTO {
     private String occupation;
 
     @Size(max=100, message = "emergencyContact cannot exceed 100 characters")
-    private String emergencyContact;
+    private String emergencyContactName;
+
+    @Size(max=100, message = "emergencyContact cannot exceed 100 characters")
+    private String emergencyContactNumber;
 
     @Size(max=100, message = "insuranceProvider cannot exceed 100 characters")
     private String insuranceProvider;
 
     @Size(max=100, message = "insurancePolicyNo cannot exceed 100 characters")
-    private String insurancePolicyNo;
+    private String insurancePolicyNumber;
 
     @Size(max=100, message = "allergies cannot exceed 100 characters")
     private String allergies;
@@ -52,7 +55,7 @@ public class PatientRequestDTO {
     private String currentMedication;
 
     @Size(max=100, message = "FamilyMedicalHistory cannot exceed 100 characters")
-    private String FamilyMedicalHistory;
+    private String familyMedicalHistory;
 
     @Size(max=100, message = "pastMedicalHistory cannot exceed 100 characters")
     private String pastMedicalHistory;
@@ -66,5 +69,5 @@ public class PatientRequestDTO {
     private String identificationDocumentUrl;
 
     @Size(max=100, message = "PrimaryPhysician cannot exceed 100 characters")
-    private String PrimaryPhysician;
+    private String primaryPhysician;
 }

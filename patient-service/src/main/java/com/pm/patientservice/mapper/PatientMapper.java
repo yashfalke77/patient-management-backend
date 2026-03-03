@@ -3,9 +3,14 @@ package com.pm.patientservice.mapper;
 import com.pm.patientservice.dto.PatientRequestDTO;
 import com.pm.patientservice.dto.PatientResponseDTO;
 import com.pm.patientservice.model.Patient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.LocalDate;
 
 public class PatientMapper {
+    private static final Logger log = LoggerFactory.getLogger(PatientMapper.class);
+
     public static PatientResponseDTO toPatientResponseDTO(Patient p){
         PatientResponseDTO patientResponseDTO = new PatientResponseDTO();
         patientResponseDTO.setEmail(p.getEmail());
@@ -22,9 +27,8 @@ public class PatientMapper {
             patientResponseDTO.setRegisteredDate(p.getRegisteredDate().toString());
         }
         patientResponseDTO.setOccupation(p.getOccupation());
-        patientResponseDTO.setEmergencyContact(p.getEmergencyContact());
         patientResponseDTO.setInsuranceProvider(p.getInsuranceProvider());
-        patientResponseDTO.setInsurancePolicyNo(p.getInsurancePolicyNo());
+        patientResponseDTO.setInsurancePolicyNumber(p.getInsurancePolicyNumber());
         patientResponseDTO.setAllergies(p.getAllergies());
         patientResponseDTO.setCurrentMedication(p.getCurrentMedication());
         patientResponseDTO.setFamilyMedicalHistory(p.getFamilyMedicalHistory());
@@ -32,9 +36,12 @@ public class PatientMapper {
         patientResponseDTO.setIdentificationType(p.getIdentificationType());
         patientResponseDTO.setIdentificationNumber(p.getIdentificationNumber());
         patientResponseDTO.setIdentificationDocumentUrl(p.getIdentificationDocumentUrl());
+        log.info(p.getPrimaryPhysician());
         patientResponseDTO.setPrimaryPhysician(p.getPrimaryPhysician());
         patientResponseDTO.setId(p.getId().toString());
         patientResponseDTO.setUserId(p.getUserId());
+        patientResponseDTO.setEmergencyContactName(p.getEmergencyContactName());
+        patientResponseDTO.setEmergencyContactNumber(p.getEmergencyContactNumber());
 
         return patientResponseDTO;
     }
@@ -61,9 +68,10 @@ public class PatientMapper {
 
         patient.setAddress(requestDTO.getAddress());
         patient.setOccupation(requestDTO.getOccupation());
-        patient.setEmergencyContact(requestDTO.getEmergencyContact());
+        patient.setEmergencyContactName(requestDTO.getEmergencyContactName());
+        patient.setEmergencyContactNumber(requestDTO.getEmergencyContactNumber());
         patient.setInsuranceProvider(requestDTO.getInsuranceProvider());
-        patient.setInsurancePolicyNo(requestDTO.getInsurancePolicyNo());
+        patient.setInsurancePolicyNumber(requestDTO.getInsurancePolicyNumber());
         patient.setAllergies(requestDTO.getAllergies());
         patient.setCurrentMedication(requestDTO.getCurrentMedication());
         patient.setFamilyMedicalHistory(requestDTO.getFamilyMedicalHistory());
@@ -106,11 +114,11 @@ public class PatientMapper {
         }
 
         if (dto.getDateOfBirth() != null && !dto.getDateOfBirth().isBlank()) {
-            patient.setDateOfBirth(LocalDate.parse(dto.getDateOfBirth()));
+            patient.setDateOfBirth(LocalDate.parse(dto.getDateOfBirth().substring(0, 10)));
         }
 
         if (dto.getRegisteredDate() != null && !dto.getRegisteredDate().isBlank()) {
-            patient.setRegisteredDate(LocalDate.parse(dto.getRegisteredDate()));
+            patient.setRegisteredDate(LocalDate.parse(dto.getRegisteredDate().substring(0, 10)));
         }
 
         if (dto.getAddress() != null && !dto.getAddress().isBlank()) {
@@ -121,16 +129,20 @@ public class PatientMapper {
             patient.setOccupation(dto.getOccupation());
         }
 
-        if (dto.getEmergencyContact() != null && !dto.getEmergencyContact().isBlank()) {
-            patient.setEmergencyContact(dto.getEmergencyContact());
+        if (dto.getEmergencyContactName() != null && !dto.getEmergencyContactName().isBlank()) {
+            patient.setEmergencyContactName(dto.getEmergencyContactName());
+        }
+
+        if (dto.getEmergencyContactNumber() != null && !dto.getEmergencyContactNumber().isBlank()) {
+            patient.setEmergencyContactNumber(dto.getEmergencyContactNumber());
         }
 
         if (dto.getInsuranceProvider() != null && !dto.getInsuranceProvider().isBlank()) {
             patient.setInsuranceProvider(dto.getInsuranceProvider());
         }
 
-        if (dto.getInsurancePolicyNo() != null && !dto.getInsurancePolicyNo().isBlank()) {
-            patient.setInsurancePolicyNo(dto.getInsurancePolicyNo());
+        if (dto.getInsurancePolicyNumber() != null && !dto.getInsurancePolicyNumber().isBlank()) {
+            patient.setInsurancePolicyNumber(dto.getInsurancePolicyNumber());
         }
 
         if (dto.getAllergies() != null && !dto.getAllergies().isBlank()) {

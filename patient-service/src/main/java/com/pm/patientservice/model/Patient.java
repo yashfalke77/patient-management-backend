@@ -48,13 +48,16 @@ public class Patient {
     private String occupation;
 
     @Size(max=100)
-    private String emergencyContact;
+    private String emergencyContactName;
+
+    @Size(max=100)
+    private String emergencyContactNumber;
 
     @Size(max=100)
     private String insuranceProvider;
 
     @Size(max=100)
-    private String insurancePolicyNo;
+    private String insurancePolicyNumber;
 
     @Size(max=100)
     private String allergies;
@@ -63,7 +66,7 @@ public class Patient {
     private String currentMedication;
 
     @Size(max=100)
-    private String FamilyMedicalHistory;
+    private String familyMedicalHistory;
 
     @Size(max=100)
     private String pastMedicalHistory;
@@ -77,5 +80,5 @@ public class Patient {
     private String identificationDocumentUrl;
 
     @Size(max=100)
-    private String PrimaryPhysician;
+    private String primaryPhysician;
 }

@@ -27,8 +27,7 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
                     .getFirst(HttpHeaders.AUTHORIZATION);
 
             if (token == null || !token.startsWith("Bearer ")) {
-                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-                return exchange.getResponse().setComplete();
+                return unauthorizedResponse(exchange);
             }
 
             return webClient.get()
@@ -37,10 +36,28 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
                     .retrieve()
                     .toBodilessEntity()
                     .flatMap(response -> chain.filter(exchange))
-                    .onErrorResume(ex -> {
-                        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-                        return exchange.getResponse().setComplete();
-                    });
+                    .onErrorResume(ex -> unauthorizedResponse(exchange));
         };
+    }
+
+    // ✅ Always write CORS headers before completing with 401
+    private reactor.core.publisher.Mono<Void> unauthorizedResponse(
+            org.springframework.web.server.ServerWebExchange exchange) {
+
+        String origin = exchange.getRequest().getHeaders().getFirst(HttpHeaders.ORIGIN);
+
+        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+
+        HttpHeaders responseHeaders = exchange.getResponse().getHeaders();
+
+        if (origin != null) {
+            responseHeaders.set(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, origin);
+            responseHeaders.set(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
+            responseHeaders.set(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS,
+                    "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+            responseHeaders.set(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, "*");
+        }
+
+        return exchange.getResponse().setComplete();
     }
 }

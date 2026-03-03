@@ -3,9 +3,20 @@ spring:
     name: api-gateway
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
       routes:
-        # REST CLIENT -> http://localhost:7070/auth/login
-        # API GATEWAY -> http://auth-service:7002/login
         - id: auth-service-route
           uri: http://auth-service:7002
           predicates:
@@ -13,15 +24,31 @@ spring:
           filters:
             - StripPrefix=1
 
-        # REST CLIENT -> http://localhost:7070/api/patient
-        # API GATEWAY -> http://patient-service:7001/patient
-        - id: patient-service
+        # ✅ Handle OPTIONS preflight FIRST — no JWT filter
+        - id: patient-service-options
           uri: http://patient-service:7001
           predicates:
             - Path=/api/patient/**
+            - Method=OPTIONS
+          filters:
+            - StripPrefix=1
+
+        - id: patient-service-get
+          uri: http://patient-service:7001
+          predicates:
+            - Path=/api/patient/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
+
+        - id: patient-service-secured
+          uri: http://patient-service:7001
+          predicates:
+            - Path=/api/patient/**
+            - Method=POST,PUT,DELETE,PATCH
           filters:
             - StripPrefix=1
             - JwtValidation
+
 server:
   port: 7070
-

@@ -11,4 +11,8 @@ public class UserResponseDTO {
     private String password;
 
     private String role;
+
+    private String patientId;
+
+    private String token;
 }

@@ -5,6 +5,7 @@ import com.pm.authservice.dto.UserRequestDTO;
 import com.pm.authservice.dto.UserResponseDTO;
 import com.pm.authservice.grpc.PatientServiceGrpcClient;
 import com.pm.authservice.util.JwtUtil;
+import com.pm.proto.PatientResponse;
 import io.jsonwebtoken.JwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +50,11 @@ public class AuthService {
         userRequestDTO.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
         userRequestDTO.setRole("PATIENT");
         UserResponseDTO userResponseDTO = userService.createUser(userRequestDTO);
-        patientServiceGrpcClient.createPatient(userResponseDTO.getId(), userResponseDTO.getEmail());
+        PatientResponse response = patientServiceGrpcClient.createPatient(userResponseDTO.getId(), userResponseDTO.getEmail());
+        userResponseDTO.setPatientId(response.getPatientId());
+        String token = jwtUtil.generateToken(userResponseDTO.getEmail(), userResponseDTO.getRole());
+        userResponseDTO.setToken(token);
+        log.info("setting patient Id in Response {}", userResponseDTO.getPatientId());
         return userResponseDTO;
     }
 }
