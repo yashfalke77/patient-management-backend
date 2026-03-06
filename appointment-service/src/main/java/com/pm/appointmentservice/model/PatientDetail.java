@@ -16,6 +16,8 @@ public class PatientDetail {
     @Id
     private UUID id;
 
+    private UUID userId;
+
     @Email
     @NotNull
     @Size(max=100)

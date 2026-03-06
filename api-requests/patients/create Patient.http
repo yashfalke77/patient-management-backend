@@ -4,10 +4,10 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "firstName": "Yash3",
+  "firstName": "Yash6",
   "lastName": "Op3",
   "userId": "34567865",
-  "email": "yashOp3@example.com",
+  "email": "yashOp6@example.com",
   "phoneNumber": "8850529588",
   "address": "123 main street22",
   "dateOfBirth": "1995-09-09",

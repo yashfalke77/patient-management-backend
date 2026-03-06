@@ -40,6 +40,58 @@ services:
     networks:
       - internal
 
+  # ─── Kafka (KRaft — no ZooKeeper) ────────────────────
+  kafka-broker:
+    image: apache/kafka:4.2.0
+    container_name: kafka-broker
+    restart: unless-stopped
+    ports:
+      - "9092:9092"     # internal Docker network
+      - "9094:9094"     # host / external access
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-broker:9092,EXTERNAL://localhost:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka-broker:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_MIN_INSYNC_REPLICAS: 1
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_DEFAULT_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_LOG_RETENTION_HOURS: 168
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 > /dev/null 2>&1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - internal
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    restart: unless-stopped
+    depends_on:
+      kafka-broker:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-broker:9092
+    networks:
+      - internal
+
   # ─── Services ────────────────────────────────────────
   patient-service:
     build:
@@ -47,16 +99,18 @@ services:
       dockerfile: Dockerfile
     container_name: patient-service
     restart: unless-stopped
-#    ports:
-#      - "7000:7000"
+    #    ports:
+    #      - "7000:7000"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://patient-service-db:5432/patient
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_SQL_INIT_MODE: always
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-broker:9092
     depends_on:
       - patient-service-db
+      - kafka-broker
     networks:
       - internal
 
@@ -79,8 +133,8 @@ services:
       dockerfile: Dockerfile
     container_name: auth-service
     restart: unless-stopped
-#    ports:
-#      - "7001:7001"
+    #    ports:
+    #      - "7001:7001"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://auth-service-db:5432/auth
       SPRING_DATASOURCE_USERNAME: admin
@@ -90,10 +144,11 @@ services:
       JWT_SECRET: c7Kp9mXqR2nT5vYwZ8aB3dE6hJ1kL4oQ0sU9fG2iN5rV8yA1cF4jM7pW0bD3gH6lO9tX2zC5eI8nR1uY4wB7dK0mP3sV6xA9cG2fJ5oT8vZ1bE4hL7qU0wN3rY
       PATIENT_SERVICE_ADDRESS: patient-service
       PATIENT_SERVICE_GRPC_PORT: 9001
-
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-broker:9092
     depends_on:
       - auth-service-db
       - patient-service
+      - kafka-broker
     networks:
       - internal
 
@@ -109,12 +164,17 @@ services:
       SPRING_DATASOURCE_PASSWORD: admin
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_SQL_INIT_MODE: always
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-broker:9092
     depends_on:
       - appointment-service-db
+      - kafka-broker
     networks:
       - internal
-
 
 networks:
   internal:
     driver: bridge
+
+volumes:
+  kafka-data:
+    driver: local

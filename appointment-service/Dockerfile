@@ -7,8 +7,8 @@ WORKDIR /app
 COPY build.gradle settings.gradle gradlew ./
 COPY gradle ./gradle
 
-##Copy libs file
-#COPY libs/ ./libs/
+#Copy libs file
+COPY libs/ ./libs/
 
 # Cache dependencies
 RUN gradle dependencies --no-daemon || true

@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -35,7 +36,7 @@ public class DoctorDetail {
     private boolean isActive;
 
     @NotNull
-    private Date registeredAt;
+    private LocalDate registeredAt;
 
 
 }

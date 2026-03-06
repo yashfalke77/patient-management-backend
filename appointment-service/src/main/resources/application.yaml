@@ -1,5 +1,12 @@
 spring:
   application:
     name: appointment-service
+  kafka:
+    consumer:
+      group-id: appointment-service
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+
 server:
   port: 7003

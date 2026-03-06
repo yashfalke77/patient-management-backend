@@ -1,0 +1,30 @@
+package com.pm.appointmentservice.controller;
+
+import com.pm.appointmentservice.dto.AppointmentRequestDTO;
+import com.pm.appointmentservice.dto.AppointmentResponseDTO;
+import com.pm.appointmentservice.service.AppointmentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/appointment")
+public class AppointmentController {
+
+    @Autowired
+    AppointmentService appointmentService;
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<AppointmentResponseDTO>> getAppointmentsByUser(@PathVariable String userId){
+        return ResponseEntity.ok().body(appointmentService.getAppointmentsByUser(userId));
+    }
+
+    @PostMapping
+    public ResponseEntity<AppointmentResponseDTO> createAppointment(@Validated @RequestBody AppointmentRequestDTO appointmentRequestDTO){
+        AppointmentResponseDTO appointmentResponseDTO = appointmentService.createAppointment(appointmentRequestDTO);
+        return ResponseEntity.ok().body(appointmentResponseDTO);
+    }
+}

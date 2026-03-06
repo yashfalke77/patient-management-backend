@@ -5,6 +5,7 @@ import com.pm.patientservice.dto.PatientRequestDTO;
 import com.pm.patientservice.dto.PatientResponseDTO;
 import com.pm.patientservice.exception.EmailAlreadyExistsException;
 import com.pm.patientservice.exception.PatientNotFoundException;
+import com.pm.patientservice.kafka.KafkaProducer;
 import com.pm.patientservice.mapper.PatientMapper;
 import com.pm.patientservice.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ import java.util.UUID;
 public class PatientService {
     @Autowired
     PatientDao dao;
+
+    @Autowired
+    KafkaProducer kafkaProducer;
 
     public List<PatientResponseDTO> getPatients(){
         List<Patient>  patients = dao.findAll();
@@ -39,6 +43,9 @@ public class PatientService {
         }
         Patient newPatient = dao.save(
                 PatientMapper.toModel(patientRequestDTO));
+
+        // Create Kafka EventTopic
+        kafkaProducer.sendEvent(newPatient);
 
         return PatientMapper.toPatientResponseDTO(newPatient);
     }
