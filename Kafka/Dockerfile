@@ -1,4 +1,3 @@
-# kafka/Dockerfile
 FROM apache/kafka:4.2.0
 
 ENV KAFKA_NODE_ID=1
@@ -20,3 +19,5 @@ ENV KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS=0
 ENV KAFKA_LOG_RETENTION_HOURS=168
 
 EXPOSE 9092
+
+CMD ["/opt/kafka/bin/kafka-server-start.sh", "/etc/kafka/docker/server.properties"]
