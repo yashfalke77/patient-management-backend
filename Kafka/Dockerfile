@@ -20,4 +20,11 @@ ENV KAFKA_LOG_RETENTION_HOURS=168
 
 EXPOSE 9092
 
-CMD ["/opt/kafka/bin/kafka-server-start.sh", "/etc/kafka/docker/server.properties"]
+# Format storage with a fixed cluster ID before starting
+CMD ["/bin/sh", "-c", "\
+  CLUSTER_ID=$(/opt/kafka/bin/kafka-storage.sh random-uuid) && \
+  /opt/kafka/bin/kafka-storage.sh format \
+    --config /etc/kafka/docker/server.properties \
+    --cluster-id $CLUSTER_ID \
+    --ignore-formatted && \
+  /opt/kafka/bin/kafka-server-start.sh /etc/kafka/docker/server.properties"]
