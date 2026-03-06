@@ -22,18 +22,14 @@ EXPOSE 9092
 
 CMD ["/bin/sh", "-c", "\
   CONFIG=/etc/kafka/docker/server.properties && \
-  sed -i 's|advertised.listeners=.*|advertised.listeners=PLAINTEXT://kafka.railway.internal:9092|g' $CONFIG && \
-  sed -i 's|listeners=.*|listeners=PLAINTEXT://:9092,CONTROLLER://:9093|g' $CONFIG && \
-  sed -i '/^advertised.host.name/d' $CONFIG && \
-  echo '' >> $CONFIG && \
-  echo 'advertised.host.name=kafka.railway.internal' >> $CONFIG && \
-  echo '>>> Verifying advertised.listeners:' && \
-  grep 'advertised' $CONFIG && \
-  echo '>>> Formatting storage...' && \
+  echo 'advertised.listeners=PLAINTEXT://kafka.railway.internal:9092' >> $CONFIG && \
+  echo 'listeners=PLAINTEXT://:9092,CONTROLLER://:9093' >> $CONFIG && \
+  sed -i '/^advertised.listeners=PLAINTEXT:\/\/[^k]/d' $CONFIG && \
+  echo '>>> Final advertised.listeners:' && \
+  grep 'advertised.listeners' $CONFIG && \
   CLUSTER_ID=$(/opt/kafka/bin/kafka-storage.sh random-uuid) && \
   /opt/kafka/bin/kafka-storage.sh format \
     --config $CONFIG \
     --cluster-id $CLUSTER_ID \
     --ignore-formatted && \
-  echo '>>> Starting Kafka...' && \
   /opt/kafka/bin/kafka-server-start.sh $CONFIG"]
