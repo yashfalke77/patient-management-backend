@@ -21,11 +21,19 @@ ENV KAFKA_LOG_RETENTION_HOURS=168
 EXPOSE 9092
 
 CMD ["/bin/sh", "-c", "\
-  sed -i 's|advertised.listeners=.*|advertised.listeners=PLAINTEXT://kafka.railway.internal:9092|' /etc/kafka/docker/server.properties && \
-  sed -i 's|listeners=.*|listeners=PLAINTEXT://:9092,CONTROLLER://:9093|' /etc/kafka/docker/server.properties && \
+  CONFIG=/etc/kafka/docker/server.properties && \
+  sed -i 's|advertised.listeners=.*|advertised.listeners=PLAINTEXT://kafka.railway.internal:9092|g' $CONFIG && \
+  sed -i 's|listeners=.*|listeners=PLAINTEXT://:9092,CONTROLLER://:9093|g' $CONFIG && \
+  sed -i '/^advertised.host.name/d' $CONFIG && \
+  echo '' >> $CONFIG && \
+  echo 'advertised.host.name=kafka.railway.internal' >> $CONFIG && \
+  echo '>>> Verifying advertised.listeners:' && \
+  grep 'advertised' $CONFIG && \
+  echo '>>> Formatting storage...' && \
   CLUSTER_ID=$(/opt/kafka/bin/kafka-storage.sh random-uuid) && \
   /opt/kafka/bin/kafka-storage.sh format \
-    --config /etc/kafka/docker/server.properties \
+    --config $CONFIG \
     --cluster-id $CLUSTER_ID \
     --ignore-formatted && \
-  /opt/kafka/bin/kafka-server-start.sh /etc/kafka/docker/server.properties"]
+  echo '>>> Starting Kafka...' && \
+  /opt/kafka/bin/kafka-server-start.sh $CONFIG"]
