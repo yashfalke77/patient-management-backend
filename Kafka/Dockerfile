@@ -20,8 +20,9 @@ ENV KAFKA_LOG_RETENTION_HOURS=168
 
 EXPOSE 9092
 
-# Format storage with a fixed cluster ID before starting
 CMD ["/bin/sh", "-c", "\
+  sed -i 's|advertised.listeners=.*|advertised.listeners=PLAINTEXT://kafka.railway.internal:9092|' /etc/kafka/docker/server.properties && \
+  sed -i 's|listeners=.*|listeners=PLAINTEXT://:9092,CONTROLLER://:9093|' /etc/kafka/docker/server.properties && \
   CLUSTER_ID=$(/opt/kafka/bin/kafka-storage.sh random-uuid) && \
   /opt/kafka/bin/kafka-storage.sh format \
     --config /etc/kafka/docker/server.properties \
