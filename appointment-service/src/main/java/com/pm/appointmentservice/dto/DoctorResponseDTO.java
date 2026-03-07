@@ -13,4 +13,5 @@ public class DoctorResponseDTO {
     private String consultationFee;
     private boolean isActive;
     private String registeredAt;
+    private String imageUrl;
 }

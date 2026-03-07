@@ -38,5 +38,7 @@ public class DoctorDetail {
     @NotNull
     private LocalDate registeredAt;
 
+    private String imageUrl;
+
 
 }

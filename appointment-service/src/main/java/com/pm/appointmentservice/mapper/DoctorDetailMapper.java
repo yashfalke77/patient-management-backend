@@ -11,6 +11,7 @@ public class DoctorDetailMapper {
         doctorResponseDTO.setActive(doctorDetail.isActive());
         doctorResponseDTO.setSpecialization(doctorDetail.getSpecialization());
         doctorResponseDTO.setRegisteredAt(doctorDetail.getRegisteredAt().toString());
+        doctorResponseDTO.setImageUrl(doctorDetail.getImageUrl());
 
         return doctorResponseDTO;
 
