@@ -14,27 +14,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaConsumer {
 
-    @Autowired
-    PatientDetailDao patientDetailDao;
-
-    private static final Logger log = LoggerFactory.getLogger(
-            KafkaConsumer.class);
-
-    @KafkaListener(topics="patient", groupId = "appointment-service")
-    public void consumeEvent(byte[] event) {
-        try {
-            PatientEvent patientEvent = PatientEvent.parseFrom(event);
-
-            log.info("Received Patient Event: [PatientId={},PatientFirstName={}, PatientLastName={},PatientEmail={}, PatientDateOfBirth={}]",
-                    patientEvent.getId(),
-                    patientEvent.getFirstName(),
-                    patientEvent.getLastName(),
-                    patientEvent.getEmail(),
-                    patientEvent.getDateOfBirth());
-
-            patientDetailDao.save(PatientDetailMapper.toModel(patientEvent));
-        } catch (InvalidProtocolBufferException e) {
-            log.error("Error deserializing event {}", e.getMessage());
-        }
-    }
+//    @Autowired
+//    PatientDetailDao patientDetailDao;
+//
+//    private static final Logger log = LoggerFactory.getLogger(
+//            KafkaConsumer.class);
+//
+//    @KafkaListener(topics="patient", groupId = "appointment-service")
+//    public void consumeEvent(byte[] event) {
+//        try {
+//            PatientEvent patientEvent = PatientEvent.parseFrom(event);
+//
+//            log.info("Received Patient Event: [PatientId={},PatientFirstName={}, PatientLastName={},PatientEmail={}, PatientDateOfBirth={}]",
+//                    patientEvent.getId(),
+//                    patientEvent.getFirstName(),
+//                    patientEvent.getLastName(),
+//                    patientEvent.getEmail(),
+//                    patientEvent.getDateOfBirth());
+//
+//            patientDetailDao.save(PatientDetailMapper.toModel(patientEvent));
+//        } catch (InvalidProtocolBufferException e) {
+//            log.error("Error deserializing event {}", e.getMessage());
+//        }
+//    }
 }
