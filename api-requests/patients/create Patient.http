@@ -1,5 +1,5 @@
 ### Creates a new patient entity
-POST http://careplus-api.up.railway.app/api/patient
+POST https://careplus-api.up.railway.app/api/patient
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
