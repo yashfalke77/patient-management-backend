@@ -59,7 +59,7 @@ spring:
           filters:
             - StripPrefix=1
 
-        - id: patient-service-get
+        - id: appointment-service-get
           uri: http://appointment-service:7003
           predicates:
             - Path=/api/appointment/**
@@ -67,7 +67,7 @@ spring:
           filters:
             - StripPrefix=1
 
-        - id: patient-service-secured
+        - id: appointment-service-secured
           uri: http://appointment-service:7003
           predicates:
             - Path=Path=/api/appointment/**
