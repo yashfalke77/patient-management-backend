@@ -9,4 +9,5 @@ public interface PatientDao extends JpaRepository<Patient, UUID> {
     boolean existsByEmail(String email);
     boolean existsByEmailAndIdNot(String email, UUID id);
     Patient getPatientById(UUID id);
+    Patient getPatientsByUserId(String userId);
 }
