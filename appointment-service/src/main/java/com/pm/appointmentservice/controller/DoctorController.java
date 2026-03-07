@@ -22,7 +22,7 @@ public class DoctorController {
 
     @GetMapping
     public ResponseEntity<List<DoctorResponseDTO>> getDoctors(){
-        log.info("Inside Doctors API");
+        log.error("Inside controller ");
         return ResponseEntity.ok().body(doctorService.getDoctors());
     }
 }
