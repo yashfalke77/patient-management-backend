@@ -20,7 +20,6 @@ public class DoctorService {
 
     public List<DoctorResponseDTO> getDoctors(){
         List<DoctorDetail>  doctorDetails = doctorDetailDao.findAll();
-        log.error("Inside service {}", doctorDetails.size());
         return doctorDetails.stream().map(DoctorDetailMapper::toResponseDTO).toList();
     }
 }

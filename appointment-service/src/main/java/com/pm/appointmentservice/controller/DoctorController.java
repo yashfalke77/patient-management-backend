@@ -22,7 +22,6 @@ public class DoctorController {
 
     @GetMapping
     public ResponseEntity<List<DoctorResponseDTO>> getDoctors(){
-        log.error("Inside controller ");
         return ResponseEntity.ok().body(doctorService.getDoctors());
     }
 }
