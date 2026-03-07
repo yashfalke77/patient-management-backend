@@ -1,13 +1,13 @@
 ### Creates a new patient entity
-POST http://localhost:7070/api/patient
+POST http://careplus-api.up.railway.app/api/patient
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "firstName": "Yash6",
+  "firstName": "Yash4",
   "lastName": "Op3",
   "userId": "34567865",
-  "email": "yashOp6@example.com",
+  "email": "yashOpkjhikuh@example.com",
   "phoneNumber": "8850529588",
   "address": "123 main street22",
   "dateOfBirth": "1995-09-09",

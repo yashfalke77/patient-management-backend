@@ -34,7 +34,7 @@ public class AuthService {
         log.info("Authenticating user with login request DTO {}", passwordEncoder.matches(loginRequestDTO.getPassword(), loginRequestDTO.getPassword()));
         return userService.findByEmail(loginRequestDTO.getEmail())
                 .filter(u -> passwordEncoder.matches(loginRequestDTO.getPassword(), u.getPassword()))
-                .map(u -> jwtUtil.generateToken(u.getEmail(), u.getRole()));
+                .map(u -> jwtUtil.generateToken(u.getId().toString(), u.getRole()));
     }
 
     public boolean validateToken(String token) {
@@ -52,7 +52,7 @@ public class AuthService {
         UserResponseDTO userResponseDTO = userService.createUser(userRequestDTO);
         PatientResponse response = patientServiceGrpcClient.createPatient(userResponseDTO.getId(), userResponseDTO.getEmail());
         userResponseDTO.setPatientId(response.getPatientId());
-        String token = jwtUtil.generateToken(userResponseDTO.getEmail(), userResponseDTO.getRole());
+        String token = jwtUtil.generateToken(userResponseDTO.getRole(), userResponseDTO.getId());
         userResponseDTO.setToken(token);
         log.info("setting patient Id in Response {}", userResponseDTO.getPatientId());
         return userResponseDTO;

@@ -1,10 +1,10 @@
 ### POST request to example server
-POST http://localhost:7070/auth/register
+POST https://careplus-api.up.railway.app/auth/register
 Content-Type: application/json
 
 {
-  "email": "yashOP3@gmail.com",
-  "password": "yashOP3"
+  "email": "yashOP4@gmail.com",
+  "password": "yashOP4"
 }
 
 ###
