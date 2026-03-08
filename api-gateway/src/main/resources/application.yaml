@@ -70,7 +70,7 @@ spring:
         - id: appointment-service-secured
           uri: http://appointment-service:7003
           predicates:
-            - Path=Path=/api/appointment/**
+            - Path=/api/appointment/**
             - Method=POST,PUT,DELETE,PATCH
           filters:
             - StripPrefix=1
