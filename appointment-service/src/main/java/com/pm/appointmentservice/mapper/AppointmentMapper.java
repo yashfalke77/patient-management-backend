@@ -5,12 +5,11 @@ import com.pm.appointmentservice.dto.AppointmentResponseDTO;
 import com.pm.appointmentservice.dto.AppointmentStatsDTO;
 import com.pm.appointmentservice.model.Appointment;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class AppointmentMapper {
@@ -49,8 +48,11 @@ public class AppointmentMapper {
     }
 
     public static LocalDateTime getParsedDate(String date) {
-        return Instant.parse(date)
-                .atZone(ZoneId.of("UTC"))
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
+                "EEE MMM dd yyyy HH:mm:ss 'GMT'Z", Locale.ENGLISH
+        );
+        return ZonedDateTime.parse(date.replaceAll(" \\(.*\\)", ""), formatter)
+                .withZoneSameInstant(ZoneId.of("Asia/Kolkata"))
                 .toLocalDateTime();
     }
 
