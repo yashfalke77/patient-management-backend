@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class DoctorService {
@@ -21,5 +22,10 @@ public class DoctorService {
     public List<DoctorResponseDTO> getDoctors(){
         List<DoctorDetail>  doctorDetails = doctorDetailDao.findAll();
         return doctorDetails.stream().map(DoctorDetailMapper::toResponseDTO).toList();
+    }
+
+    public DoctorResponseDTO getDoctorById(UUID id){
+        DoctorDetail doctorDetail = doctorDetailDao.getDoctorDetailById(id);
+        return DoctorDetailMapper.toResponseDTO(doctorDetail);
     }
 }

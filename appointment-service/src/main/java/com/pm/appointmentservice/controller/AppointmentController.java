@@ -18,9 +18,14 @@ public class AppointmentController {
     @Autowired
     AppointmentService appointmentService;
 
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<List<AppointmentResponseDTO>> getAppointmentsByUser(@PathVariable String userId){
         return ResponseEntity.ok().body(appointmentService.getAppointmentsByUser(userId));
+    }
+
+    @GetMapping("/{appointmentId}")
+    public ResponseEntity<AppointmentResponseDTO> getAppointmentById(@PathVariable UUID appointmentId){
+        return ResponseEntity.ok().body(appointmentService.getAppointmentById(appointmentId));
     }
 
     @PostMapping

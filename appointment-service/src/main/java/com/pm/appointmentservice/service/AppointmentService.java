@@ -34,4 +34,9 @@ public class AppointmentService {
         Appointment updatedAppointment = appointmentDao.save(appointment);
         return AppointmentMapper.toResponseDTO(appointment);
     }
+
+    public AppointmentResponseDTO getAppointmentById(UUID appointmentId){
+        Appointment appointment = appointmentDao.getAppointmentsById(appointmentId);
+        return AppointmentMapper.toResponseDTO(appointment);
+    }
 }

@@ -65,7 +65,7 @@ spring:
             - Path=/api/appointment/**
             - Method=GET
           filters:
-            - StripPrefix=2
+            - StripPrefix=1
 
         - id: appointment-service-secured
           uri: http://appointment-service:7003

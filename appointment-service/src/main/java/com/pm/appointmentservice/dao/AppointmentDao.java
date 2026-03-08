@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface AppointmentDao extends JpaRepository<Appointment, UUID> {
     List<Appointment> findAllByUserId(String userId);
+
+    Appointment getAppointmentsById(UUID id);
 }
