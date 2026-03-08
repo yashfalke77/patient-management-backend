@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/appointment")
@@ -25,6 +26,12 @@ public class AppointmentController {
     @PostMapping
     public ResponseEntity<AppointmentResponseDTO> createAppointment(@Validated @RequestBody AppointmentRequestDTO appointmentRequestDTO){
         AppointmentResponseDTO appointmentResponseDTO = appointmentService.createAppointment(appointmentRequestDTO);
+        return ResponseEntity.ok().body(appointmentResponseDTO);
+    }
+
+    @PutMapping("/{appointmentId}")
+    public ResponseEntity<AppointmentResponseDTO> updateAppointment(@PathVariable UUID appointmentId, @Validated @RequestBody AppointmentRequestDTO appointmentRequestDTO){
+        AppointmentResponseDTO appointmentResponseDTO = appointmentService.updateAppointment(appointmentRequestDTO, appointmentId);
         return ResponseEntity.ok().body(appointmentResponseDTO);
     }
 }

@@ -49,4 +49,39 @@ public class AppointmentMapper {
                 .atZone(ZoneId.of("UTC"))
                 .toLocalDateTime();
     }
+
+    public static void updateEntity(Appointment appointment, AppointmentRequestDTO appointmentRequestDTO) {
+
+        if(appointmentRequestDTO!=null &&  !appointmentRequestDTO.getSchedule().isBlank()){
+            appointment.setSchedule(getParsedDate(appointmentRequestDTO.getSchedule()));
+        }
+
+        if(appointmentRequestDTO!=null && !appointmentRequestDTO.getNote().isBlank()){
+            appointment.setNote(appointmentRequestDTO.getNote());
+        }
+
+        if(appointmentRequestDTO!=null && !appointmentRequestDTO.getStatus().isBlank()){
+            appointment.setStatus(appointmentRequestDTO.getStatus());
+        }
+
+        if (appointmentRequestDTO!=null && !appointmentRequestDTO.getReason().isBlank()){
+            appointment.setReason(appointmentRequestDTO.getReason());
+        }
+
+        if(appointmentRequestDTO != null && !appointmentRequestDTO.getDoctorId().isBlank()){
+            appointment.setDoctorId(appointmentRequestDTO.getDoctorId());
+        }
+
+        if (appointmentRequestDTO != null && !appointmentRequestDTO.getCancellationReason().isBlank()){
+            appointment.setCancellationReason(appointmentRequestDTO.getCancellationReason());
+        }
+
+        if (appointmentRequestDTO != null && !appointmentRequestDTO.getPatientId().isBlank()){
+            appointment.setPatientId(appointmentRequestDTO.getPatientId());
+        }
+
+        if (appointmentRequestDTO!= null && !appointmentRequestDTO.getUserId().isBlank()){
+            appointment.setUserId(appointmentRequestDTO.getUserId());
+        }
+    }
 }
