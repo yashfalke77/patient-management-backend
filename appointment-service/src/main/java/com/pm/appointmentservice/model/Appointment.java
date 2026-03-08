@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -45,4 +46,7 @@ public class Appointment {
 
     @NotNull
     private String userId;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 }

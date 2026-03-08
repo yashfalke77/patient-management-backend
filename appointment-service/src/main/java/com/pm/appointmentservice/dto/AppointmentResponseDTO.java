@@ -13,4 +13,5 @@ public class AppointmentResponseDTO {
     private String status;
     private String cancellationReason;
     private String userId;
+    private String createdAt;
 }
