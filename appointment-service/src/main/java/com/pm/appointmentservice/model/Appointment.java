@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -24,7 +25,7 @@ public class Appointment {
     private String patientId;
 
     @NotNull
-    private LocalDate schedule;
+    private LocalDateTime schedule;
 
     @NotNull
     @Size(max=1000)

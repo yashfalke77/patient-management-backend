@@ -4,7 +4,10 @@ import com.pm.appointmentservice.dto.AppointmentRequestDTO;
 import com.pm.appointmentservice.dto.AppointmentResponseDTO;
 import com.pm.appointmentservice.model.Appointment;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 public class AppointmentMapper {
@@ -30,7 +33,7 @@ public class AppointmentMapper {
         appointment.setNote(appointmentRequestDTO.getNote());
         appointment.setReason(appointmentRequestDTO.getReason());
         if(appointmentRequestDTO.getSchedule()!= null){
-            appointment.setSchedule(LocalDate.parse(appointmentRequestDTO.getSchedule()));
+            appointment.setSchedule(getParsedDate(appointmentRequestDTO.getSchedule()));
         }
         appointment.setStatus(appointmentRequestDTO.getStatus());
         appointment.setDoctorId(appointmentRequestDTO.getDoctorId());
@@ -39,5 +42,11 @@ public class AppointmentMapper {
         appointment.setUserId(appointmentRequestDTO.getUserId());
 
         return appointment;
+    }
+
+    public static LocalDateTime getParsedDate(String date) {
+        return Instant.parse(date)
+                .atZone(ZoneId.of("UTC"))
+                .toLocalDateTime();
     }
 }
