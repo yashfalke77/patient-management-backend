@@ -48,6 +48,14 @@ public class AppointmentMapper {
     }
 
     public static LocalDateTime getParsedDate(String date) {
+        // ISO 8601 format: "2026-03-08T15:24:08.397Z"
+        if (date.endsWith("Z") || date.contains("+")) {
+            return Instant.parse(date.endsWith("Z") ? date : date.replace(" ", "T"))
+                    .atZone(ZoneId.of("UTC"))
+                    .toLocalDateTime();
+        }
+
+        // JS Date format: "Thu Mar 12 2026 20:30:00 GMT+0530 (India Standard Time)"
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
                 "EEE MMM dd yyyy HH:mm:ss 'GMT'Z", Locale.ENGLISH
         );
