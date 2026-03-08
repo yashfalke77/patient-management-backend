@@ -52,7 +52,7 @@ public class AuthService {
         UserResponseDTO userResponseDTO = userService.createUser(userRequestDTO);
         PatientResponse response = patientServiceGrpcClient.createPatient(userResponseDTO.getId(), userResponseDTO.getEmail());
         userResponseDTO.setPatientId(response.getPatientId());
-        String token = jwtUtil.generateToken(userResponseDTO.getRole(), userResponseDTO.getId());
+        String token = jwtUtil.generateToken( userResponseDTO.getId(), userResponseDTO.getRole());
         userResponseDTO.setToken(token);
         log.info("setting patient Id in Response {}", userResponseDTO.getPatientId());
         return userResponseDTO;
