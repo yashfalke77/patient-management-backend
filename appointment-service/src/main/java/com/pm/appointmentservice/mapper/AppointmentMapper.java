@@ -7,7 +7,6 @@ import com.pm.appointmentservice.model.Appointment;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -25,9 +24,9 @@ public class AppointmentMapper {
         appointmentResponseDTO.setUserId(appointment.getUserId());
         appointmentResponseDTO.setPatientId(appointment.getPatientId());
         appointmentResponseDTO.setCreatedAt(appointment.getCreatedAt().toString());
+        appointmentResponseDTO.setPatientName(appointment.getPatientName());
 
         return appointmentResponseDTO;
-
     }
 
     public static Appointment toModel(AppointmentRequestDTO appointmentRequestDTO){
@@ -43,6 +42,7 @@ public class AppointmentMapper {
         appointment.setPatientId(appointmentRequestDTO.getPatientId());
         appointment.setCancellationReason(appointmentRequestDTO.getCancellationReason());
         appointment.setUserId(appointmentRequestDTO.getUserId());
+        appointment.setPatientName(appointmentRequestDTO.getPatientName());
 
         return appointment;
     }

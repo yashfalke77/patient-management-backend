@@ -26,6 +26,9 @@ public class Appointment {
     private String patientId;
 
     @NotNull
+    private String patientName;
+
+    @NotNull
     private LocalDateTime schedule;
 
     @NotNull

@@ -30,9 +30,5 @@ public class AppointmentRequestDTO {
     @Size(max=1000, message = "note cannot exceed 1000 chars")
     private String note;
 
-
-
-
-
-
+    private String patientName;
 }

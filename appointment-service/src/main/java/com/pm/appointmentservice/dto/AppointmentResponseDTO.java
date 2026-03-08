@@ -14,4 +14,5 @@ public class AppointmentResponseDTO {
     private String cancellationReason;
     private String userId;
     private String createdAt;
+    private String patientName;
 }
