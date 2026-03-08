@@ -2,6 +2,7 @@ package com.pm.appointmentservice.controller;
 
 import com.pm.appointmentservice.dto.AppointmentRequestDTO;
 import com.pm.appointmentservice.dto.AppointmentResponseDTO;
+import com.pm.appointmentservice.dto.AppointmentStatsDTO;
 import com.pm.appointmentservice.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,24 +20,30 @@ public class AppointmentController {
     AppointmentService appointmentService;
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<AppointmentResponseDTO>> getAppointmentsByUser(@PathVariable String userId){
+    public ResponseEntity<List<AppointmentResponseDTO>> getAppointmentsByUser(@PathVariable String userId) {
         return ResponseEntity.ok().body(appointmentService.getAppointmentsByUser(userId));
     }
 
     @GetMapping("/{appointmentId}")
-    public ResponseEntity<AppointmentResponseDTO> getAppointmentById(@PathVariable UUID appointmentId){
+    public ResponseEntity<AppointmentResponseDTO> getAppointmentById(@PathVariable UUID appointmentId) {
         return ResponseEntity.ok().body(appointmentService.getAppointmentById(appointmentId));
     }
 
     @PostMapping
-    public ResponseEntity<AppointmentResponseDTO> createAppointment(@Validated @RequestBody AppointmentRequestDTO appointmentRequestDTO){
+    public ResponseEntity<AppointmentResponseDTO> createAppointment(@Validated @RequestBody AppointmentRequestDTO appointmentRequestDTO) {
         AppointmentResponseDTO appointmentResponseDTO = appointmentService.createAppointment(appointmentRequestDTO);
         return ResponseEntity.ok().body(appointmentResponseDTO);
     }
 
     @PutMapping("/{appointmentId}")
-    public ResponseEntity<AppointmentResponseDTO> updateAppointment(@PathVariable UUID appointmentId, @Validated @RequestBody AppointmentRequestDTO appointmentRequestDTO){
+    public ResponseEntity<AppointmentResponseDTO> updateAppointment(@PathVariable UUID appointmentId, @Validated @RequestBody AppointmentRequestDTO appointmentRequestDTO) {
         AppointmentResponseDTO appointmentResponseDTO = appointmentService.updateAppointment(appointmentRequestDTO, appointmentId);
         return ResponseEntity.ok().body(appointmentResponseDTO);
+    }
+
+    @GetMapping("/recent")
+    public ResponseEntity<AppointmentStatsDTO> getRecentAppointments() {
+        AppointmentStatsDTO appointmentStatsDTO = appointmentService.getRecentAppointments();
+        return ResponseEntity.ok().body(appointmentStatsDTO);
     }
 }

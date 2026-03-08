@@ -2,6 +2,7 @@ package com.pm.appointmentservice.mapper;
 
 import com.pm.appointmentservice.dto.AppointmentRequestDTO;
 import com.pm.appointmentservice.dto.AppointmentResponseDTO;
+import com.pm.appointmentservice.dto.AppointmentStatsDTO;
 import com.pm.appointmentservice.model.Appointment;
 
 import java.time.Instant;
@@ -9,6 +10,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class AppointmentMapper {
     public static AppointmentResponseDTO toResponseDTO(Appointment appointment){
@@ -83,5 +86,15 @@ public class AppointmentMapper {
         if (appointmentRequestDTO!= null && !appointmentRequestDTO.getUserId().isBlank()){
             appointment.setUserId(appointmentRequestDTO.getUserId());
         }
+    }
+
+    public static AppointmentStatsDTO toAppointmentStatusResponseDto(Map<String, Long> counts , List<Appointment> appointmentList){
+        AppointmentStatsDTO appointmentStatsDTO = new AppointmentStatsDTO();
+        appointmentStatsDTO.setDocuments(appointmentList);
+        appointmentStatsDTO.setPendingCount(counts.getOrDefault("pending", 0L));
+        appointmentStatsDTO.setScheduledCount(counts.getOrDefault("scheduled", 0L));
+        appointmentStatsDTO.setCancelledCount(counts.getOrDefault("cancelled", 0L));
+        appointmentStatsDTO.setTotalCount(appointmentList.size());
+        return appointmentStatsDTO;
     }
 }

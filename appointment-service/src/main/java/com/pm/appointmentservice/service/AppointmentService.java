@@ -3,6 +3,7 @@ package com.pm.appointmentservice.service;
 import com.pm.appointmentservice.dao.AppointmentDao;
 import com.pm.appointmentservice.dto.AppointmentRequestDTO;
 import com.pm.appointmentservice.dto.AppointmentResponseDTO;
+import com.pm.appointmentservice.dto.AppointmentStatsDTO;
 import com.pm.appointmentservice.exception.AppointmentNotFoundException;
 import com.pm.appointmentservice.mapper.AppointmentMapper;
 import com.pm.appointmentservice.model.Appointment;
@@ -10,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class AppointmentService {
@@ -38,5 +41,18 @@ public class AppointmentService {
     public AppointmentResponseDTO getAppointmentById(UUID appointmentId){
         Appointment appointment = appointmentDao.getAppointmentsById(appointmentId);
         return AppointmentMapper.toResponseDTO(appointment);
+    }
+
+    public AppointmentStatsDTO getRecentAppointments() {
+        List<Appointment> appointments = appointmentDao.findAllByOrderByCreatedAtDesc();
+
+        Map<String, Long> counts = appointments.stream()
+                .collect(Collectors.groupingBy(
+                        Appointment::getStatus,
+                        Collectors.counting()
+                ));
+
+        return AppointmentMapper.toAppointmentStatusResponseDto(counts, appointments);
+
     }
 }
