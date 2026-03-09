@@ -66,35 +66,35 @@ public class AppointmentMapper {
 
     public static void updateEntity(Appointment appointment, AppointmentRequestDTO appointmentRequestDTO) {
 
-        if(appointmentRequestDTO!=null &&  !appointmentRequestDTO.getSchedule().isBlank()){
+        if (appointmentRequestDTO != null && appointmentRequestDTO.getSchedule() != null && !appointmentRequestDTO.getSchedule().isBlank()) {
             appointment.setSchedule(getParsedDate(appointmentRequestDTO.getSchedule()));
         }
 
-        if(appointmentRequestDTO!=null && !appointmentRequestDTO.getNote().isBlank()){
+        if (appointmentRequestDTO != null && appointmentRequestDTO.getNote() != null && !appointmentRequestDTO.getNote().isBlank()) {
             appointment.setNote(appointmentRequestDTO.getNote());
         }
 
-        if(appointmentRequestDTO!=null && !appointmentRequestDTO.getStatus().isBlank()){
+        if (appointmentRequestDTO != null && appointmentRequestDTO.getStatus() != null && !appointmentRequestDTO.getStatus().isBlank()) {
             appointment.setStatus(appointmentRequestDTO.getStatus());
         }
 
-        if (appointmentRequestDTO!=null && !appointmentRequestDTO.getReason().isBlank()){
+        if (appointmentRequestDTO != null && appointmentRequestDTO.getReason() != null && !appointmentRequestDTO.getReason().isBlank()) {
             appointment.setReason(appointmentRequestDTO.getReason());
         }
 
-        if(appointmentRequestDTO != null && !appointmentRequestDTO.getDoctorId().isBlank()){
+        if (appointmentRequestDTO != null && appointmentRequestDTO.getDoctorId() != null && !appointmentRequestDTO.getDoctorId().isBlank()) {
             appointment.setDoctorId(appointmentRequestDTO.getDoctorId());
         }
 
-        if (appointmentRequestDTO != null && !appointmentRequestDTO.getCancellationReason().isBlank()){
+        if (appointmentRequestDTO != null && appointmentRequestDTO.getCancellationReason() != null && !appointmentRequestDTO.getCancellationReason().isBlank()) {
             appointment.setCancellationReason(appointmentRequestDTO.getCancellationReason());
         }
 
-        if (appointmentRequestDTO != null && !appointmentRequestDTO.getPatientId().isBlank()){
+        if (appointmentRequestDTO != null && appointmentRequestDTO.getPatientId() != null && !appointmentRequestDTO.getPatientId().isBlank()) {
             appointment.setPatientId(appointmentRequestDTO.getPatientId());
         }
 
-        if (appointmentRequestDTO!= null && !appointmentRequestDTO.getUserId().isBlank()){
+        if (appointmentRequestDTO != null && appointmentRequestDTO.getUserId() != null && !appointmentRequestDTO.getUserId().isBlank()) {
             appointment.setUserId(appointmentRequestDTO.getUserId());
         }
     }
