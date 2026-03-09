@@ -22,16 +22,13 @@ public class Appointment {
     @GeneratedValue(strategy =  GenerationType.AUTO)
     private UUID id;
 
-    @NotNull
     private String patientId;
 
-    @NotNull
     private String patientName;
 
     @NotNull
     private LocalDateTime schedule;
 
-    @NotNull
     @Size(max=1000)
     private String reason;
 
@@ -47,7 +44,6 @@ public class Appointment {
     @Size(max=1000)
     private String cancellationReason;
 
-    @NotNull
     private String userId;
 
     @CreationTimestamp
