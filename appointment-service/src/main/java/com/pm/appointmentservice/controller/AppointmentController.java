@@ -4,6 +4,8 @@ import com.pm.appointmentservice.dto.AppointmentRequestDTO;
 import com.pm.appointmentservice.dto.AppointmentResponseDTO;
 import com.pm.appointmentservice.dto.AppointmentStatsDTO;
 import com.pm.appointmentservice.service.AppointmentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +18,7 @@ import java.util.UUID;
 @RequestMapping("/appointment")
 public class AppointmentController {
 
+    private static final Logger log = LoggerFactory.getLogger(AppointmentController.class);
     @Autowired
     AppointmentService appointmentService;
 
@@ -37,6 +40,7 @@ public class AppointmentController {
 
     @PatchMapping("/{appointmentId}")
     public ResponseEntity<AppointmentResponseDTO> updateAppointment(@PathVariable UUID appointmentId, @Validated @RequestBody AppointmentRequestDTO appointmentRequestDTO) {
+        log.info("Request is here: {}", appointmentRequestDTO.toString());
         AppointmentResponseDTO appointmentResponseDTO = appointmentService.updateAppointment(appointmentRequestDTO, appointmentId);
         return ResponseEntity.ok().body(appointmentResponseDTO);
     }
