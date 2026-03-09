@@ -6,7 +6,7 @@ spring:
       globalcors:
         corsConfigurations:
           '[/**]':
-            allowedOrigins: "http://localhost:3000"
+            allowedOrigins: ["http://localhost:3000", "https://careplusai.netlify.app"]
             allowedMethods:
               - GET
               - POST
